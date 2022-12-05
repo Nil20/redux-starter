@@ -1,13 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import store from "./store";
+import * as actions from "./actionTypes";
+import { bugAdded, bugResolved } from "./actions";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const unsubscribe = store.subscribe(() => {
+  console.log("Store changed", store.getState());
+});
+
+//unsubscribe();
+
+store.dispatch(bugAdded("Bug 1"));
+
+//unsubscribe();
+
+// store.dispatch({
+//   type: actions.BUG_REMOVED,
+//   payload: {
+//     id: 1,
+//   },
+// });
+
+store.dispatch(bugResolved(1));
+
 root.render(
   <React.StrictMode>
     <App />
+    {console.log(store.getState())}
   </React.StrictMode>
 );
 
