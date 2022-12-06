@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import store from "./store";
-import * as actions from "./actionTypes";
-import { bugAdded, bugResolved } from "./actions";
+import configureStore from "./store/configureStore";
+import { bugAdded, bugResolved, bugRemoved } from "./store/bugs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const store = configureStore()
 
 const unsubscribe = store.subscribe(() => {
   console.log("Store changed", store.getState());
@@ -14,7 +15,13 @@ const unsubscribe = store.subscribe(() => {
 
 //unsubscribe();
 
-store.dispatch(bugAdded("Bug 1"));
+store.dispatch(bugAdded({description: "Bug 1"}));
+store.dispatch(bugAdded({description: "Bug 2"}));
+store.dispatch(bugAdded({description: "Bug 3"}));
+store.dispatch(bugResolved({id: 2}));
+store.dispatch(bugAdded({description: "Bug 4"}));
+store.dispatch(bugResolved({id: 1}));
+store.dispatch(bugRemoved({id: 3}));
 
 //unsubscribe();
 
@@ -25,7 +32,7 @@ store.dispatch(bugAdded("Bug 1"));
 //   },
 // });
 
-store.dispatch(bugResolved(1));
+
 
 root.render(
   <React.StrictMode>

@@ -1,0 +1,25 @@
+Func programming.
+1. Functions are 1st class citizens. Can treat em like any other objects.
+2. Higher order function is a func that takes a func as an argument or returns it or both.
+3. Function composition
+4. Use lodash to pipe/compose functions
+5. UI components should subscribe to the store when a store is changed. e.g.- react compnents would be re-rendered here(store.subscribe)
+6. If the current component is not gonna be visible, one should unsubscribe. Subscriptions cause memory leaks. Unsubscribing saves it.
+7. Store carries three important methods. subscribe(notify users about changes), dispatch(calls reducers with actions), getState(make the state private)
+8. Every state of a redux library will have a type and a payload.
+9. If state is not updated properly, reducer has problems
+10. Devtools enhancer returns a store enhancer function. Is not activated by default like react-develeloper tool.
+11. Redux toolkit - createAction, configureStore. helps refactoring 
+12. Under the hood, redux toolkit uses immer
+13. A reducer should have a state and an action
+14. With createReducer from redux toolkit, one can do mutable operation on a state because it uses immer
+15. Form states shouldn't be kept in redux store. only store it when user submits the data 
+
+
+import reducers from '../../reducers';
+
+test('reducers', () => {
+  let state;
+  state = reducers([{id:1,description:'Bug 1',resolved:false},{id:2,description:'Bug 2',resolved:true},{id:3,description:'Bug 3',resolved:false},{id:4,description:'Bug 4',resolved:false}], {type:'bugResolved',payload:{id:1}});
+  expect(state).toEqual([{id:1,description:'Bug 1',resolved:true},{id:2,description:'Bug 2',resolved:true},{id:3,description:'Bug 3',resolved:false},{id:4,description:'Bug 4',resolved:false}]);
+});
