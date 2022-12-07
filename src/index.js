@@ -3,25 +3,27 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import configureStore from "./store/configureStore";
-import { bugAdded, bugResolved, bugRemoved } from "./store/bugs";
+import { bugAdded, bugResolved, bugRemoved, getUnresolvedBugs } from "./store/bugs";
+import { productAdded } from "./store/products";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const store = configureStore()
-
-const unsubscribe = store.subscribe(() => {
-  console.log("Store changed", store.getState());
-});
+const store = configureStore();
 
 //unsubscribe();
 
-store.dispatch(bugAdded({description: "Bug 1"}));
-store.dispatch(bugAdded({description: "Bug 2"}));
-store.dispatch(bugAdded({description: "Bug 3"}));
-store.dispatch(bugResolved({id: 2}));
-store.dispatch(bugAdded({description: "Bug 4"}));
-store.dispatch(bugResolved({id: 1}));
-store.dispatch(bugRemoved({id: 3}));
+store.dispatch(bugAdded({ description: "Bug 1" }));
+store.dispatch(bugAdded({ description: "Bug 2" }));
+store.dispatch(bugAdded({ description: "Bug 3" }));
+store.dispatch(bugResolved({ id: 2 }));
+store.dispatch(bugAdded({ description: "Bug 4" }));
+store.dispatch(bugResolved({ id: 1 }));
+
+const unresolvedBugs = getUnresolvedBugs(store.getState());
+
+console.log(unresolvedBugs);
+
+store.dispatch(productAdded({ name: "Project 1" }));
 
 //unsubscribe();
 
@@ -32,12 +34,9 @@ store.dispatch(bugRemoved({id: 3}));
 //   },
 // });
 
-
-
 root.render(
   <React.StrictMode>
     <App />
-    {console.log(store.getState())}
   </React.StrictMode>
 );
 
